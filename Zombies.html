@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+
+<head>
+    <title> The Zombie Game </title>
+    <link rel="stylesheet" href="ZombieStyle.css">
+</head>
+
+
+<body id="body">
+    <div id='welcome' style="text-align: center;"> <img src="Images\Welcome.png"> </div>
+    <div id='play'> <button class="button" type="button" onclick="THE_GAME(); THE_HUMAN()"> Click to be Haunted
+        </button> </div>
+
+    <script>
+
+        // GLOBAL VARIABLES
+        let welcome = document.getElementById("welcome");
+        let play = document.getElementById("play");
+        let body = document.getElementById("body");
+        let total_height = window.innerHeight;
+        let total_width = window.innerWidth;
+        let score = 0;
+
+        // ------------------------------------- This is the index of the game page ------------------------------------
+        function welcome_button(){
+            let welcome_height = total_height / 3;
+            let play_height = total_height / 2;
+
+            welcome.style.position = "absolute";
+            welcome.style.top = welcome_height + 'px';
+            welcome.style.left = "12%";
+
+            play.style.position = "absolute";
+            play.style.top = play_height + 'px';
+            play.style.left = "39%";
+        }
+
+
+        // --------------------------------------------- RANDOM POSITION FINDER -----------------------------------------------
+        function random_position() {
+            total_height = window.innerHeight
+            total_width = window.innerWidth
+            let random_x = (Math.random() * total_width) - 100;
+            if (random_x < 100) { random_x = random_x + 100 }
+            else { random_x - 75 }
+
+            let random_y = Math.random() * 100;
+            if (random_y > 80) { random_y = random_y - 20 }
+            else { }
+
+            return [random_x, random_y]
+        }
+
+
+        // ----------------------------------- This plays the explosion video and sound --------------------------------------
+        function zombie_explosion(random_x, random_y, clicked) {
+            if (clicked == true) {
+                the_image = document.getElementById('gameZombie');
+            }
+            else {
+                the_image = document.getElementById('gameHuman');
+            }
+            the_image.onclick = "";
+            the_image.src = "Images/explosion.gif";
+            let scream = new Audio("Audios/scream.mp3");
+            scream.play();
+        }
+
+        // --------------------------------------------- THE END BUTTON FUNCTION ----------------------------------------------
+        function end_button() {
+            body.innerHTML += "<button id='easy' class='button' onclick='score=0' type='button'> Click to be Unhaunted </button>"
+            let the_end = document.getElementById("easy").style;
+            the_end.position = "absolute";
+            the_end.top = "93vh";
+            the_end.right = '39%';
+        }
+
+        // --------------------------------------- THE ZOMBIE MECHANICS FUNCTION ------------------------------------------------
+        function THE_GAME() {
+            let coordinates = random_position();
+            random_x = coordinates[0];
+            random_y = coordinates[1];
+            Zombie = true;
+
+            body.innerHTML = "<p id='score'> Score: " + score + "</p>";
+
+            body.innerHTML += "<img id='gameZombie' src='Images/theZombie.png' height='75' width='75' onclick='score++; zombie_explosion(random_x,random_y,Zombie)'>"
+            let gameZombie = document.getElementById('gameZombie').style;
+            gameZombie.position = "absolute";
+            gameZombie.top = random_y + "vh";
+            gameZombie.left = random_x + "px";
+
+            end_button();
+
+            setTimeout(THE_GAME, 2000);
+            setTimeout(THE_HUMAN, 2000);
+        }
+
+        // ---------------------------------- THE HUMAN MECHANICS FUNCTION -------------------------------------------------------
+        function THE_HUMAN() {
+            let coordinates = random_position();
+            random_x = coordinates[0];
+            random_y = coordinates[1];
+            Human = false;
+
+            body.innerHTML += "<img id='gameHuman' src='Images/theHuman.png' height='75' width='75' onclick='score--; zombie_explosion(random_x,random_y,Human)'>"
+            let gameHuman = document.getElementById('gameHuman').style;
+            gameHuman.position = "absolute";
+            gameHuman.top = random_y + "vh";
+            gameHuman.left = random_x + "px";
+        }
+
+        welcome_button();
+
+    </script>
+</body>
+
+</html>

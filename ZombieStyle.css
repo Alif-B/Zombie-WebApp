@@ -1,0 +1,21 @@
+body{
+    background-image: url('Images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+.button{
+    border: none;
+    color: white;
+    background-color: crimson;
+    padding: 10px 75px;
+    text-align: center;
+    font-family: cursive;
+}
+#score{
+    text-align: center;
+    font-size: 25px;
+    font-family: cursive;
+    color: whitesmoke;
+}
